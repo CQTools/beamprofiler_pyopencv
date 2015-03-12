@@ -69,8 +69,8 @@ while(True):
         cv2.line(img,(cx,cy+int(popty[2])),(cx,cy-int(popty[2])),255,1)#draws y line
         cv2.ellipse(img,(cx,cy),(int(poptx[2]),int(popty[2])),0,0,360,255,1)#draws ellipse 
         plt.draw()
+        print waist_x, waist_y
     cv2.imshow('img',img)
-    print waist_x, waist_y
     if cv2.waitKey(10) & 0xFF == ord('q'):
        break
 
