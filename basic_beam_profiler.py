@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar 10 18:32:34 2015
@@ -14,13 +15,13 @@ from math import log10, floor
 
 cap = cv2.VideoCapture(0) #Chose capture device may need to change to 1 if using laptop with a webcam
 
-cap.set(3,1296)#Sets image to full size
-cap.set(4,964)#Sets image to full size
+
+cap.set(3,640)#Sets image to half size
+cap.set(4,480)#Sets image to half size
 cap.set(15,120)# Sets exmposure time should stay fixed changed att as needed
+
 ret, frame = cap.read()# Reads in one frame to stop crashing issues
 
-if cv2.waitKey(10) & 0xFF == ord('q'):
-   break
 
 plt.axis([0, cap.get(3), 0, 255])#sets plots axis
 plt.ion()#sets iteractive plot means constant update
@@ -54,7 +55,7 @@ while(True):
         poptx, pcovx = curve_fit(gauss_function, x, linex,p0x) #fitting algorithm
         plt.plot(linex) #plots x line plot data
         plt.plot(gauss_function(x,*poptx),color='red') #plots fit to this
-        waist_x = round_sig(poptx[2]*2*3.75e-3,3) #x width in pixel times pixel size
+        waist_x = round_sig(poptx[2]*4*3.75e-3,3) #x width in pixel times pixel size
         plt.title('Wasit x '+str(waist_x)+' mm')
         
         #Fitting y direction
@@ -64,15 +65,14 @@ while(True):
         popty, pcovy = curve_fit(gauss_function,y,liney,p0y) #fitting algorithm
         plt.plot(liney) #plots y line plot data
         plt.plot(gauss_function(y,*popty),color='red') #plots fit to this
-        waist_y = round_sig(popty[2]*2*3.75e-3,3) #y width in pixel times pixel size to give waist in mm
+        waist_y = round_sig(popty[2]*4*3.75e-3,3) #y width in pixel times pixel size to give waist in mm
         plt.title('Waist y '+str(waist_y)+' mm')
         
-    
         cv2.line(img,(cx+int(poptx[2]),cy),(cx-int(poptx[2]),cy),255,1)#draws x line
         cv2.line(img,(cx,cy+int(popty[2])),(cx,cy-int(popty[2])),255,1)#draws y line
         cv2.ellipse(img,(cx,cy),(int(poptx[2]),int(popty[2])),0,0,360,255,1)#draws ellipse 
         plt.draw()
-        print waist_x, waist_y
+        print waist_x, waist_y 
     cv2.imshow('img',img)
     if cv2.waitKey(10) & 0xFF == ord('q'):
        break
