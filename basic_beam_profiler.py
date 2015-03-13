@@ -50,7 +50,7 @@ while(True):
         liney = img[:,cx] #1D array of pixel values through y centre
         #Fitting x direction
         plt.subplot(211)
-        x = pyl.arange(len(linex)) #Creates array of x points for fit
+        x = pyl.arange(len(linex)) #Creates array of x points for fit  
         p0x = [max(linex),cx,np.std(linex),5] #intial values x fit
         poptx, pcovx = curve_fit(gauss_function, x, linex,p0x) #fitting algorithm
         plt.plot(linex) #plots x line plot data
@@ -67,12 +67,13 @@ while(True):
         plt.plot(gauss_function(y,*popty),color='red') #plots fit to this
         waist_y = round_sig(popty[2]*4*3.75e-3,3) #y width in pixel times pixel size to give waist in mm
         plt.title('Waist y '+str(waist_y)+' mm')
+             
         
         cv2.line(img,(cx+int(poptx[2]),cy),(cx-int(poptx[2]),cy),255,1)#draws x line
         cv2.line(img,(cx,cy+int(popty[2])),(cx,cy-int(popty[2])),255,1)#draws y line
         cv2.ellipse(img,(cx,cy),(int(poptx[2]),int(popty[2])),0,0,360,255,1)#draws ellipse 
         plt.draw()
-        print waist_x, waist_y 
+        print waist_x, waist_y
     cv2.imshow('img',img)
     if cv2.waitKey(10) & 0xFF == ord('q'):
        break
