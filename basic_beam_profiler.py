@@ -19,6 +19,9 @@ cap.set(4,964)#Sets image to full size
 cap.set(15,120)# Sets exmposure time should stay fixed changed att as needed
 ret, frame = cap.read()# Reads in one frame to stop crashing issues
 
+if cv2.waitKey(10) & 0xFF == ord('q'):
+   break
+
 plt.axis([0, cap.get(3), 0, 255])#sets plots axis
 plt.ion()#sets iteractive plot means constant update
 plt.show()# shows plotting window
